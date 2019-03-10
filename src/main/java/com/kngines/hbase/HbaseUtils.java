@@ -2,6 +2,7 @@ package com.kngines.hbase;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -327,4 +328,27 @@ public final class HbaseUtils {
 		row.addColumn(Bytes.toBytes(colFamily), Bytes.toBytes(colName), Bytes.toBytes(colValue));
 	}
 	
+	/**
+	 * 
+	 * @Title: listAllTables   
+	 * @Description: TODO    列出所有数据表名
+	 * @param: @return      
+	 * @return: List<String>      
+	 * @throws
+	 */
+	public static List<String> listAllTables() {
+		logger.info("list all tables.");
+	    try {
+	    	Admin admin = conn.getAdmin();
+	        TableName[] tableNames = admin.listTableNames();
+	        List<String> tabs = new ArrayList<String>();
+	        for (int i = 0; i < tableNames.length; i++) {
+	        	tabs.add(tableNames[i].getNameAsString());
+	        }
+	        return tabs;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 }

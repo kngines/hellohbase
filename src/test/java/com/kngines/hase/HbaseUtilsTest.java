@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-
 import com.kngines.hbase.HbaseUtils;
 
 public class HbaseUtilsTest {
@@ -48,8 +46,8 @@ public class HbaseUtilsTest {
 	 *         family1 @param: @param family2 @param: @param
 	 *         tableName @param: @throws IOException @return: void @throws
 	 */
-	public static void printAllTest(String family1, String family2, String tableName) throws IOException {
-		HbaseUtils.printAll(TableName.valueOf(tableName));
+	public static void printAllTest(String family1, String family2, TableName tableName) throws IOException {
+		HbaseUtils.printAll(tableName);
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -59,13 +57,13 @@ public class HbaseUtilsTest {
 		TableName tableName = TableName.valueOf("sys_user");
 
 		// 1 建表测试
-		createTableTest(family1,family2,tableName);
+		// createTableTest(family1,family2,tableName);
 
 		// 2 插入测试
 		// addStringColTest(family1, family2, tableName);
 
 		// 3 打印所有行测试
-		// printAllTest(family1, family2, tableName);
+		printAllTest(family1, family2, tableName);
 
 		// 4 根据rowkey 查询某一行; 方法1
 		// Result rs = HbaseUtils.getOne(tableName, "lduCGGgM");
@@ -87,7 +85,12 @@ public class HbaseUtilsTest {
 		conditions.add("info,age,25");
 		HbaseUtils.selectByFilter(tableName, conditions);
 
-		// 6 删除数据表
+		// 6 打印所有数据表
+		List<String> tabs = HbaseUtils.listAllTables();
+		for (String tab : tabs) {
+			System.out.println(tab);
+		}
+		// 7 删除数据表
 		// HbaseUtils.deleteTable(tableName);
 	}
 
